@@ -1,0 +1,35 @@
+<div class="auth-wrapper align-items-stretch aut-bg-img">
+  <div class="flex-grow-1">
+    <div class="h-100 d-md-flex align-items-center auth-side-img">
+      <div class="col-sm-10 auth-content w-auto">
+        <h1 class="text-white my-4">Bem Vindo!</h1>
+        <h4 class="text-white font-weight-normal">Sistema de Gerenciamento escolar</h4>
+      </div>
+    </div>
+    <div class="auth-side-form">
+      <form [formGroup]="form" class="editForm" novalidate>
+        <div class="auth-content">
+          <!-- <img src="assets/images/auth/auth-logo-dark.png" alt="" class="img-fluid mb-4 d-block d-xl-none d-lg-none"> -->
+          <h3 class="mb-4 f-w-400">Login</h3>
+          <div class="input-group mb-3">
+            <select name="select" class="form-control form-control-default" formControlName="secretaria">
+              <option [value]="null">Selecione uma Secretaria</option>
+              <option *ngFor="let secretaria of secretarias" [value]="secretaria.value" >{{secretaria.name}}</option>
+            </select>
+          </div>
+          <div class="input-group mb-3">
+            <input type="text" class="form-control" placeholder="Usuário" formControlName="username">
+          </div>
+          <div class="input-group mb-4">
+            <input type="password" class="form-control" placeholder="Senha" formControlName="password">
+          </div>
+          <div class="custom-control custom-checkbox text-left mb-4 mt-2">
+            <input type="checkbox" class="custom-control-input" id="customCheck1">
+            <label class="custom-control-label" for="customCheck1">Salvar credenciais.</label>
+          </div>
+          <button type="button" class="btn btn-block btn-primary mb-0" (click)="verificaUsuario()">Verificar Usuário</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
