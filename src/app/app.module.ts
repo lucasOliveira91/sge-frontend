@@ -23,6 +23,8 @@ import { ConfigurationComponent } from './shared/layout/admin/configuration/conf
 import { ToggleFullScreenDirective } from './shared/full-screen/toggle-full-screen';
 import { SharedModule } from './shared/shared.module';
 import { NavigationItem } from './shared/layout/admin/navigation/navigation';
+import { ToastrModule } from 'ngx-toastr';
+import { NgxSpinnerModule } from "ngx-spinner";
 
 @NgModule({
   declarations: [
@@ -52,7 +54,14 @@ import { NavigationItem } from './shared/layout/admin/navigation/navigation';
     NgbTooltipModule,
     NgbButtonsModule,
     NgbTabsetModule,
-    HttpClientModule
+    HttpClientModule,
+    ToastrModule.forRoot({
+      positionClass: 'toast-top-right',
+      countDuplicates: true,
+      closeButton: true,
+      preventDuplicates: true
+    }),
+    NgxSpinnerModule
   ],
   providers: [
     NavigationItem,

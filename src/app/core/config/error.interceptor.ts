@@ -8,7 +8,7 @@ import { NotificationService } from '../service/notification.service';
 export class ErrorInterceptor implements HttpInterceptor {
 
     constructor(
-        public notificationService: NotificationService
+        public notificationService: NotificationService,
     ) { }
 
     intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {

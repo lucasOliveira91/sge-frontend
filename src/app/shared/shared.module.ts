@@ -7,11 +7,8 @@ import { TodoListRemoveDirective } from './components/todo/todo-list-remove.dire
 import { TodoCardCompleteDirective } from './components/todo/todo-card-complete.directive';
 import { PERFECT_SCROLLBAR_CONFIG, PerfectScrollbarConfigInterface, PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
 import { ClickOutsideModule } from 'ng-click-outside';
-import { SpinnerComponent } from './components/spinner/spinner.component';
 import { ApexChartComponent } from './components/chart/apex-chart/apex-chart.component';
 import {ApexChartService} from './components/chart/apex-chart/apex-chart.service';
-import { ToastComponent } from './components/toast/toast.component';
-import {ToastService} from './components/toast/toast.service';
 import { GalleryComponent } from './components/gallery/gallery.component';
 import {LightboxModule} from 'ngx-lightbox';
 
@@ -47,18 +44,14 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     TodoListRemoveDirective,
     TodoCardCompleteDirective,
     ClickOutsideModule,
-    SpinnerComponent,
     ApexChartComponent,
     GalleryComponent,
-    ToastComponent
   ],
   declarations: [
     DataFilterPipe,
     TodoListRemoveDirective,
     TodoCardCompleteDirective,
-    SpinnerComponent,
     ApexChartComponent,
-    ToastComponent,
     GalleryComponent
   ],
   providers: [
@@ -67,7 +60,6 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
       useValue: DEFAULT_PERFECT_SCROLLBAR_CONFIG
     },
     ApexChartService,
-    ToastService
-  ]
+    ]
 })
 export class SharedModule { }
