@@ -5,13 +5,15 @@ import { AuthenticationRoutingModule } from './autenticacao-routing.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { LoginComponent } from './login/login.component';
 import { LoginDadosEscolaresComponent } from './login-dados-escolares/login-dados-escolares.component';
+import { SharedModule } from 'src/app/shared/shared.module';
 
 @NgModule({
   imports: [
     CommonModule,
     AuthenticationRoutingModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    SharedModule
   ],
   declarations: [
     LoginComponent,

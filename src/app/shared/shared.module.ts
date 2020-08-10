@@ -46,13 +46,14 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     ClickOutsideModule,
     ApexChartComponent,
     GalleryComponent,
+    
   ],
   declarations: [
     DataFilterPipe,
     TodoListRemoveDirective,
     TodoCardCompleteDirective,
     ApexChartComponent,
-    GalleryComponent
+    GalleryComponent,
   ],
   providers: [
     {

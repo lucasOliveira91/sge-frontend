@@ -16,6 +16,7 @@ export class LoginComponent implements OnInit {
 
   secretarias = [];
   form: FormGroup;
+  isSubmit: boolean = false;
 
   constructor(
     private dadosEscolaresService: DadosEscolaresService,
@@ -29,9 +30,9 @@ export class LoginComponent implements OnInit {
 
   ngOnInit() {
     this.form = this.fb.group({
-      username: [null, [Validators.required, Validators.minLength(2)]],
-      password: [null, [Validators.required]],
-      secretaria: [null]
+      username: [null, [Validators.required, Validators.minLength(3)]],
+      password: [null, [Validators.required, Validators.minLength(3)]],
+      secretaria: [null, [Validators.required]]
     });
     console.log(this.form.value)
     this.carregarSecretariasEducacao();
@@ -41,7 +42,7 @@ export class LoginComponent implements OnInit {
     this.dadosEscolaresService.getSecretarias().subscribe(secs => {
       secs.forEach(sec => this.secretarias.push({ name: sec['descricao'], value: sec['id'] }))
 
-      if(this.secretarias.length === 1) {
+      if (this.secretarias.length === 1) {
         this.form.controls['secretaria'].setValue(this.secretarias[0].value);
       }
     });
@@ -49,18 +50,22 @@ export class LoginComponent implements OnInit {
 
   verificaUsuario() {
     console.log(this.form.value)
-    if(this.form.valid) {
-      this.autenticacaoService.login(this.form.controls['username'].value, this.form.controls['password'].value).subscribe(user => {
-        this.usuarioService.getUsuario(this.form.controls['username'].value).subscribe(usuario => {
-          this.userContextService.setUser(usuario);
-          this.routeStateService.add("Dados Escolares", 'login/login-dados-escolares', null, true);
-        });
-      });
+    if (!this.form.valid) {
+      this.isSubmit = true;
+      return;
     }
+
+    this.autenticacaoService.login(this.form.controls['username'].value, this.form.controls['password'].value).subscribe(user => {
+      this.usuarioService.getUsuario(this.form.controls['username'].value).subscribe(usuario => {
+        this.userContextService.setUser(usuario);
+        this.routeStateService.add("Dados Escolares", 'login/login-dados-escolares', null, true);
+      });
+    });
+
   }
 
-  comboSecretariaChange(event) {
-    console.log(event)
+  required(field: string) {
+    return this.form != null && (this.isSubmit || (this.form.controls[field].dirty || this.form.controls[field].touched)) && (this.form.controls[field].errors != null && this.form.controls[field].invalid && this.form.controls[field].errors.required);
   }
 
 }

@@ -12,20 +12,19 @@
           <!-- <img src="assets/images/auth/auth-logo-dark.png" alt="" class="img-fluid mb-4 d-block d-xl-none d-lg-none"> -->
           <h3 class="mb-4 f-w-400">Login</h3>
           <div class="input-group mb-3">
-            <select name="select" class="form-control form-control-default" formControlName="secretaria">
-              <option [value]="null">Selecione uma Secretaria</option>
+            <select name="select" class="form-control form-control-default" [ngClass]="{'is-invalid' : required('secretaria')}" formControlName="secretaria">
+              <option [ngValue]="null">Selecione uma Secretaria</option>
               <option *ngFor="let secretaria of secretarias" [value]="secretaria.value" >{{secretaria.name}}</option>
             </select>
+            <label *ngIf="required('secretaria')" id="validation-required-error" class="error jquery-validation-error small form-text invalid-feedback">Campo Obrigatório</label>
           </div>
           <div class="input-group mb-3">
-            <input type="text" class="form-control" placeholder="Usuário" formControlName="username">
+              <input type="text" class="form-control" placeholder="Usuário" name="validation-username" [ngClass]="{'is-invalid' : required('username')}" formControlName="username">
+              <label *ngIf="required('username')" id="validation-required-error" class="error jquery-validation-error small form-text invalid-feedback">Campo Obrigatório</label>
           </div>
           <div class="input-group mb-4">
-            <input type="password" class="form-control" placeholder="Senha" formControlName="password">
-          </div>
-          <div class="custom-control custom-checkbox text-left mb-4 mt-2">
-            <input type="checkbox" class="custom-control-input" id="customCheck1">
-            <label class="custom-control-label" for="customCheck1">Salvar credenciais.</label>
+            <input type="password" class="form-control" placeholder="Senha" [ngClass]="{'is-invalid' : required('password')}" formControlName="password">
+            <label *ngIf="required('password')" id="validation-required-error" class="error jquery-validation-error small form-text invalid-feedback">Campo Obrigatório</label>
           </div>
           <button type="button" class="btn btn-block btn-primary mb-0" (click)="verificaUsuario()">Verificar Usuário</button>
         </div>
