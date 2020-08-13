@@ -9,17 +9,32 @@
       <div class="auth-side-form">
         <form [formGroup]="form" class="editForm" novalidate>
           <div class="auth-content">
-            <!-- <img src="assets/images/auth/auth-logo-dark.png" alt="" class="img-fluid mb-4 d-block d-xl-none d-lg-none"> -->
-            <h3 class="mb-4 f-w-400">Escolha a Unid. de Ensino</h3>
-            <div class="input-group mb-3">
-              <!-- <select class="form-control" id="combo-secretaria-ensino" formControlName="secretaria">
-                <option *ngFor="let secretaria of secretarias; let i = index" [value]="secretarias[i].id" >
-                  {{secretarias[i].name}}
-                </option>
-              </select>  -->
+            <h4 class="mb-4 f-w-400">Escolha a Unid. de Ensino</h4>
+            <div class="input-group mb-3" *ngIf="unidades.length > 0">
+              <select name="select" class="form-control form-control-default" [ngClass]="{'is-invalid' : required('unidade')}" (change)="onChangeUnidade($event)" formControlName="unidade">
+                <option [ngValue]="null">Selecione uma Unidade de Ensino</option>
+                <option *ngFor="let unidade of unidades" [value]="unidade.value" >{{unidade.name}}</option>
+              </select>
+              <label *ngIf="required('unidade')" id="validation-required-error" class="error jquery-validation-error small form-text invalid-feedback">Campo Obrigatório</label>
             </div>
-            <button type="button" class="btn btn-block btn-primary" >Logon</button>
-            <button type="button" class="btn btn-block btn-secondary" (click)="router.navigate(['/login']);">Voltar</button>
+
+            <div class="input-group mb-3" *ngIf="unidades.length > 0">
+              <select name="select" class="form-control form-control-default" [ngClass]="{'is-invalid' : required('periodo')}" (change)="onChangePeriodo($event)" formControlName="periodo">
+                <option [ngValue]="null">Selecione o Período Letivo</option>
+                <option *ngFor="let periodo of periodos" [value]="periodo.value" >{{periodo.name}}</option>
+              </select>
+              <label *ngIf="required('periodo')" id="validation-required-error" class="error jquery-validation-error small form-text invalid-feedback">Campo Obrigatório</label>
+            </div>
+
+            <div class="input-group mb-3">
+              <select name="select" class="form-control form-control-default" [ngClass]="{'is-invalid' : required('subdivisao')}" formControlName="subdivisao">
+                <option [ngValue]="null">Selecione a Subdivisão</option>
+                <option *ngFor="let subdivisao of subdivisoes" [value]="subdivisao.value" >{{subdivisao.name}}</option>
+              </select>
+              <label *ngIf="required('subdivisao')" id="validation-required-error" class="error jquery-validation-error small form-text invalid-feedback">Campo Obrigatório</label>
+            </div>
+            <button type="button" class="btn btn-block btn-primary" (click)="logon()">Logon</button>
+            <button type="button" class="btn btn-block btn-secondary" (click)="voltar()">Voltar</button>
           </div>
         </form>
       </div>

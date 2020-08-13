@@ -2,6 +2,7 @@ import { Injectable, Injector } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Combo } from '../model/combo.model';
 import { BaseResourceService } from 'src/app/core/service/base-resource.service';
+import { Usuario } from '../model/usuario.model';
 
 @Injectable({
   providedIn: 'root'
@@ -12,7 +13,7 @@ export class UsuarioService extends BaseResourceService<Combo>{
     super('api/usuario', injector)
   }
 
-  getUsuario(login: string): Observable<Combo[]> {
+  getUsuario(login: string): Observable<Usuario> {
     return this.http.get<any>(`${this.apiPath}/${login}`)
   }
 

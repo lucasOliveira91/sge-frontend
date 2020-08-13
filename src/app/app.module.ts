@@ -25,6 +25,8 @@ import { SharedModule } from './shared/shared.module';
 import { NavigationItem } from './shared/layout/admin/navigation/navigation';
 import { ToastrModule } from 'ngx-toastr';
 import { NgxSpinnerModule } from "ngx-spinner";
+import { HomeComponent } from './pages/home/home.component';
+import { AuthGuard } from './core/config/auth.guard';
 
 @NgModule({
   declarations: [
@@ -41,7 +43,8 @@ import { NgxSpinnerModule } from "ngx-spinner";
     NavSearchComponent,
     NavRightComponent,
     ConfigurationComponent,
-    ToggleFullScreenDirective
+    ToggleFullScreenDirective,
+    HomeComponent
   ],
   imports: [
     FormsModule,
@@ -65,6 +68,7 @@ import { NgxSpinnerModule } from "ngx-spinner";
   ],
   providers: [
     NavigationItem,
+    AuthGuard,
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
   ],

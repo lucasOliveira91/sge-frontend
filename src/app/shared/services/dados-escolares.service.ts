@@ -16,11 +16,15 @@ export class DadosEscolaresService extends BaseResourceService<Combo>{
     return this.http.get<Combo[]>(`${this.apiPath}/secretarias-educacao`)
   }
 
-  getPeriodoLetivo(): Observable<Combo[]> {
-    return this.http.get<Combo[]>(`${this.apiPath}/periodo-letivo`)
+  getPeriodoLetivo(codSec): Observable<Combo[]> {
+    return this.http.get<Combo[]>(`${this.apiPath}/periodo-letivo/${codSec}`)
   }
 
-  getSubdivisao(): Observable<Combo[]> {
-    return this.http.get<Combo[]>(`${this.apiPath}/subdivisao`)
+  getSubdivisoes(codSec,codUnidade, codPeriodo): Observable<Combo[]> {
+    return this.http.get<Combo[]>(`${this.apiPath}/subdivisao/${codSec}/${codUnidade}/${codPeriodo}`)
+  }
+
+  getUnidadesEnsino(codSec): Observable<Combo[]> {
+    return this.http.get<Combo[]>(`${this.apiPath}/unidades-ensino/${codSec}`)
   }
 }

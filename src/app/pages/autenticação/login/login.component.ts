@@ -1,11 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { DadosEscolaresService } from 'src/app/shared/service/dados-escolares.service';
-import { AutenticacaoService } from 'src/app/shared/service/autenticacao.service';
+import { DadosEscolaresService } from 'src/app/shared/services/dados-escolares.service';
+import { AutenticacaoService } from 'src/app/shared/services/autenticacao.service';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { UsuarioService } from 'src/app/shared/service/usuario.service';
 import { UserContextService } from 'src/app/core/service/user-context.service';
 import { RouteStateService } from 'src/app/core/service/route-state.service';
-import { Router } from '@angular/router';
+import { UsuarioService } from 'src/app/shared/services/usuario.service';
 
 @Component({
   selector: 'app-login',
@@ -24,8 +23,7 @@ export class LoginComponent implements OnInit {
     private usuarioService: UsuarioService,
     private userContextService: UserContextService,
     private routeStateService: RouteStateService,
-    private fb: FormBuilder,
-    private router: Router,
+    private fb: FormBuilder
   ) { }
 
   ngOnInit() {
@@ -34,7 +32,8 @@ export class LoginComponent implements OnInit {
       password: [null, [Validators.required, Validators.minLength(3)]],
       secretaria: [null, [Validators.required]]
     });
-    console.log(this.form.value)
+    this.userContextService.logout();
+
     this.carregarSecretariasEducacao();
   }
 
@@ -49,7 +48,6 @@ export class LoginComponent implements OnInit {
   }
 
   verificaUsuario() {
-    console.log(this.form.value)
     if (!this.form.valid) {
       this.isSubmit = true;
       return;
@@ -57,8 +55,9 @@ export class LoginComponent implements OnInit {
 
     this.autenticacaoService.login(this.form.controls['username'].value, this.form.controls['password'].value).subscribe(user => {
       this.usuarioService.getUsuario(this.form.controls['username'].value).subscribe(usuario => {
+        usuario.codSecretariaEnsino = this.form.controls['secretaria'].value;
         this.userContextService.setUser(usuario);
-        this.routeStateService.add("Dados Escolares", 'login/login-dados-escolares', null, true);
+        this.routeStateService.add("Dados Escolares", 'login/login-dados-escolares', null, false);
       });
     });
 
