@@ -95,6 +95,10 @@ export class LoginDadosEscolaresComponent implements OnInit {
       usuario.codUnidade = this.form.controls['unidade'].value;
       usuario.codPeriodo = this.form.controls['periodo'].value;
       usuario.codSubdivisao = this.form.controls['subdivisao'].value;
+      
+      usuario.noPeriodo = this.periodos.find(p => p.value === this.form.controls['periodo'].value).name;
+      usuario.noSubdivisao = this.subdivisoes.find(p => p.value === this.form.controls['subdivisao'].value).name;
+      usuario.noSecretaria = this.unidades.find(p => p.value === this.form.controls['unidade'].value).name;
       this.userContextService.setUser(usuario);
 
       this.routeStateService.add("Home", '', null, true);

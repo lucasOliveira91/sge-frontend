@@ -17,7 +17,6 @@ import { NavCollapseComponent } from './shared/layout/admin/navigation/nav-conte
 import { NavItemComponent } from './shared/layout/admin/navigation/nav-content/nav-item/nav-item.component';
 import { NavBarComponent } from './shared/layout/admin/nav-bar/nav-bar.component';
 import { NavLeftComponent } from './shared/layout/admin/nav-bar/nav-left/nav-left.component';
-import { NavSearchComponent } from './shared/layout/admin/nav-bar/nav-left/nav-search/nav-search.component';
 import { NavRightComponent } from './shared/layout/admin/nav-bar/nav-right/nav-right.component';
 import { ConfigurationComponent } from './shared/layout/admin/configuration/configuration.component';
 import { ToggleFullScreenDirective } from './shared/full-screen/toggle-full-screen';
@@ -40,7 +39,6 @@ import { AuthGuard } from './core/config/auth.guard';
     NavItemComponent,
     NavBarComponent,
     NavLeftComponent,
-    NavSearchComponent,
     NavRightComponent,
     ConfigurationComponent,
     ToggleFullScreenDirective,

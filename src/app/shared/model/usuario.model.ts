@@ -4,4 +4,5 @@ export interface Usuario {
     noUsuario: string;
     edEmail: string;
     codSecretariaEnsino: number;
+    noPerfil: string;
 }

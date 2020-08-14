@@ -2,6 +2,7 @@ import { AfterViewInit, Component, ElementRef, EventEmitter, NgZone, OnInit, Out
 import { NavigationItem } from '../navigation';
 import { NextConfig } from '../../../../../app-config';
 import { Location } from '@angular/common';
+import { SessionService } from 'src/app/core/service/session.service';
 
 @Component({
   selector: 'app-nav-content',
@@ -18,13 +19,20 @@ export class NavContentComponent implements OnInit, AfterViewInit {
   public scrollWidth: any;
   public windowWidth: number;
   public isNavProfile: boolean;
+  public nomeUsuario: string;
+  public noSecretaria:string;
 
   @Output() onNavMobCollapse = new EventEmitter();
 
   @ViewChild('navbarContent', {static: false}) navbarContent: ElementRef;
   @ViewChild('navbarWrapper', {static: false}) navbarWrapper: ElementRef;
 
-  constructor(public nav: NavigationItem, private zone: NgZone, private location: Location) {
+  constructor(
+    public nav: NavigationItem,
+     private zone: NgZone, 
+     private location: Location,
+     private sessionService: SessionService
+    ) {
     this.nextConfig = NextConfig.config;
     this.windowWidth = window.innerWidth;
 
@@ -45,6 +53,10 @@ export class NavContentComponent implements OnInit, AfterViewInit {
         (document.querySelector('#nav-ps-next') as HTMLElement).style.maxHeight = '100%';
       }, 500);
     }
+
+    var data = this.sessionService.getItem("currentUser");
+    this.nomeUsuario = data.noUsuario;
+    this.noSecretaria = data.noSecretaria;
   }
 
   ngAfterViewInit() {

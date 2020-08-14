@@ -16,7 +16,7 @@ export class ErrorInterceptor implements HttpInterceptor {
         return next.handle(req).pipe(
             catchError((error: HttpErrorResponse) => {
                 console.log('---erro', error)
-                let msg = error.error;
+                let msg = error.error instanceof ProgressEvent ? 'Sistema indisponível.' : error.error;
                 if(error.status === 403) {
                     this.notificationService.error("Acesso não autorizado.");
                     return throwError(error.error);
