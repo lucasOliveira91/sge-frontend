@@ -13,8 +13,11 @@ export class UsuarioService extends BaseResourceService<Combo>{
     super('api/usuario', injector)
   }
 
-  getUsuario(login: string): Observable<Usuario> {
-    return this.http.get<any>(`${this.apiPath}/${login}`)
+  getUsuario(login: string, sec: number): Observable<Usuario> {
+    return this.http.get<any>(`${this.apiPath}/${login}/${sec}`)
   }
 
+  getmodulos(): Observable<any[]> {
+    return this.http.get<any>(`${this.apiPath}/modulos`)
+  }
 }

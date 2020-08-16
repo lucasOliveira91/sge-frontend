@@ -3,6 +3,7 @@ import { NavigationItem } from '../navigation';
 import { NextConfig } from '../../../../../app-config';
 import { Location } from '@angular/common';
 import { SessionService } from 'src/app/core/service/session.service';
+import { UsuarioService } from 'src/app/shared/services/usuario.service';
 
 @Component({
   selector: 'app-nav-content',
@@ -31,12 +32,13 @@ export class NavContentComponent implements OnInit, AfterViewInit {
     public nav: NavigationItem,
      private zone: NgZone, 
      private location: Location,
-     private sessionService: SessionService
+     private sessionService: SessionService,
+     private usuarioService: UsuarioService
     ) {
     this.nextConfig = NextConfig.config;
     this.windowWidth = window.innerWidth;
 
-    this.navigation = this.nav.get();
+    // this.navigation = this.nav.get();
     this.prevDisabled = 'disabled';
     this.nextDisabled = '';
     this.scrollWidth = 0;
@@ -57,6 +59,74 @@ export class NavContentComponent implements OnInit, AfterViewInit {
     var data = this.sessionService.getItem("currentUser");
     this.nomeUsuario = data.noUsuario;
     this.noSecretaria = data.noSecretaria;
+
+    this.navigation = [];
+    let navigationItems: any = 
+    [
+      {
+        id: 'other',
+        title: 'Menu',
+        type: 'group',
+        icon: 'feather icon-align-left',
+        children: []
+      }
+    ];
+    this.usuarioService.getmodulos().subscribe(modulos => {
+     
+      modulos.forEach(modulo => {
+        let item: any =  {
+          id: 'menu-level',
+          title: modulo.noModuloRaiz,
+          type: 'collapse',
+          icon: 'feather icon-menu',
+          children: []
+        };
+
+        modulo.submenus.forEach(element => {
+          let item2: any = {
+            id: 'menu-level-2.2',
+            title: element.nome,
+            type: (element.submenus.length ===0 ? 'item' : 'collapse'),
+            url: 'javascript:',
+            external: true,
+            children: []
+          };
+
+          element.submenus.forEach(element2 => {
+            let item3: any= {
+              id: 'menu-level-2.2.2',
+              title: element2.nome,
+              type: (element2.submenus.length ===0 ? 'item' : 'collapse'),
+              url: 'javascript:',
+              external: true,
+              children: []
+            }
+            item2.children.push(
+              item3
+            );
+
+            element2.submenus.forEach(element3 => {
+              item3.children.push(
+                {
+                  id: 'menu-level-2.2.2',
+                  title: element3.nome,
+                  type: (element3.submenus.length ===0 ? 'item' : 'collapse'),
+                  url: 'javascript:',
+                  external: true,
+                  children: []
+                }
+              );
+            });
+          });
+
+          item.children.push(item2);
+
+        });
+        navigationItems[0].children.push(item);
+      });
+
+      this.navigation = navigationItems;
+    });
   }
 
   ngAfterViewInit() {

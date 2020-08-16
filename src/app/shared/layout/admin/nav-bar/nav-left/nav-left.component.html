@@ -1,15 +1,15 @@
-<ul class="navbar-nav mr-auto">
+<ul class="navbar-nav mr-auto" *ngIf="periodo">
   <li class="nav-item">
    Periodo Letivo: {{periodo}}
   </li>
 </ul>
-<ul class="navbar-nav mr-auto">
+<ul class="navbar-nav mr-auto" *ngIf="subdivisao">
   <li class="nav-item">
    Sub-Divisão: {{subdivisao}}
   </li>
 </ul>
 
-<ul class="navbar-nav mr-auto">
+<ul class="navbar-nav mr-auto" *ngIf="perfil">
   <li class="nav-item">
    Perfil: {{perfil}}
   </li>

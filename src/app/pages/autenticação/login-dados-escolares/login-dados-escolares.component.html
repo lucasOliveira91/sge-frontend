@@ -10,15 +10,15 @@
         <form [formGroup]="form" class="editForm" novalidate>
           <div class="auth-content">
             <h4 class="mb-4 f-w-400">Escolha a Unid. de Ensino</h4>
-            <div class="input-group mb-3" *ngIf="unidades.length > 0">
-              <select name="select" class="form-control form-control-default" [ngClass]="{'is-invalid' : required('unidade')}" (change)="onChangeUnidade($event)" formControlName="unidade">
+            <div class="input-group mb-3" *ngIf="usuario.noPerfil == 'ESCOLAS'">
+              <select name="select"  class="form-control form-control-default" [ngClass]="{'is-invalid' : required('unidade')}" (change)="onChangeUnidade($event)" formControlName="unidade">
                 <option [ngValue]="null">Selecione uma Unidade de Ensino</option>
                 <option *ngFor="let unidade of unidades" [value]="unidade.value" >{{unidade.name}}</option>
               </select>
               <label *ngIf="required('unidade')" id="validation-required-error" class="error jquery-validation-error small form-text invalid-feedback">Campo Obrigatório</label>
             </div>
 
-            <div class="input-group mb-3" *ngIf="unidades.length > 0">
+            <div class="input-group mb-3" >
               <select name="select" class="form-control form-control-default" [ngClass]="{'is-invalid' : required('periodo')}" (change)="onChangePeriodo($event)" formControlName="periodo">
                 <option [ngValue]="null">Selecione o Período Letivo</option>
                 <option *ngFor="let periodo of periodos" [value]="periodo.value" >{{periodo.name}}</option>
@@ -26,7 +26,7 @@
               <label *ngIf="required('periodo')" id="validation-required-error" class="error jquery-validation-error small form-text invalid-feedback">Campo Obrigatório</label>
             </div>
 
-            <div class="input-group mb-3">
+            <div class="input-group mb-3" *ngIf="usuario.noPerfil == 'ESCOLAS'">
               <select name="select" class="form-control form-control-default" [ngClass]="{'is-invalid' : required('subdivisao')}" formControlName="subdivisao">
                 <option [ngValue]="null">Selecione a Subdivisão</option>
                 <option *ngFor="let subdivisao of subdivisoes" [value]="subdivisao.value" >{{subdivisao.name}}</option>

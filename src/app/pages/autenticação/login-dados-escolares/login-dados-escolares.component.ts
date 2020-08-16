@@ -17,6 +17,7 @@ export class LoginDadosEscolaresComponent implements OnInit {
   periodos = [];
   subdivisoes = [];
   isSubmit: boolean = false;
+  usuario;
 
   constructor(
     private router: Router,
@@ -28,14 +29,26 @@ export class LoginDadosEscolaresComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.form = this.fb.group({
-      unidade: [null, [Validators.required]],
-      periodo: [null, [Validators.required]],
-      subdivisao: [null, [Validators.required]]
-    });
+  
 
-    this.carregarUnidadesEnsino();
+    this.usuario = this.sessionService.getItem("currentUser");
+    console.log(this.usuario)
 
+    if (this.usuario.noPerfil == 'Administrador' || this.usuario.noPerfil == 'SEMED') {
+      this.form = this.fb.group({
+        periodo: [null, [Validators.required]],
+      });
+
+      this.carregarPeriodoLetivo();
+    } else {
+      this.form = this.fb.group({
+        unidade: [null, [Validators.required]],
+        periodo: [null, [Validators.required]],
+        subdivisao: [null, [Validators.required]]
+      });
+
+      this.carregarUnidadesEnsino();
+    }
   }
 
   carregarUnidadesEnsino() {
@@ -51,28 +64,25 @@ export class LoginDadosEscolaresComponent implements OnInit {
   }
 
   carregarPeriodoLetivo() {
-    if (this.unidades.length > 0) {
-      let usuario = this.sessionService.getItem("currentUser");
-      this.dadosEscolaresService.getPeriodoLetivo(usuario.codSecretariaEnsino).subscribe(list => {
-        list.forEach(sec => this.periodos.push({ name: sec['descricao'], value: sec['id'] }))
+    this.dadosEscolaresService.getPeriodoLetivo(this.usuario.codSecretariaEnsino).subscribe(list => {
+      list.forEach(sec => this.periodos.push({ name: sec['descricao'], value: sec['id'] }))
 
-        if (this.periodos.length > 0) {
-          this.form.controls['periodo'].setValue(this.periodos[this.periodos.length-1].value);
-        }
+      if (this.periodos.length > 0) {
+        this.form.controls['periodo'].setValue(this.periodos[this.periodos.length - 1].value);
+      }
 
-        this.carregarSubdivisao();
-      });
-    }
+      this.carregarSubdivisao();
+    });
+
   }
 
   carregarSubdivisao() {
     if (this.unidades.length > 0) {
-      let usuario = this.sessionService.getItem("currentUser");
-      this.dadosEscolaresService.getSubdivisoes(usuario.codSecretariaEnsino, this.form.controls['unidade'].value, this.form.controls['periodo'].value).subscribe(list => {
+      this.dadosEscolaresService.getSubdivisoes(this.usuario.codSecretariaEnsino, this.form.controls['unidade'].value, this.form.controls['periodo'].value).subscribe(list => {
         list.forEach(sec => this.subdivisoes.push({ name: sec['descricao'], value: sec['id'] }))
 
         if (this.subdivisoes.length > 0) {
-          this.form.controls['subdivisao'].setValue(this.subdivisoes[this.subdivisoes.length-1].value);
+          this.form.controls['subdivisao'].setValue(this.subdivisoes[this.subdivisoes.length - 1].value);
         }
       });
     }
@@ -84,6 +94,7 @@ export class LoginDadosEscolaresComponent implements OnInit {
   }
 
   onChangePeriodo($event) {
+    console.log(event)
     this.subdivisoes = [];
     this.carregarSubdivisao();
   }
@@ -91,15 +102,21 @@ export class LoginDadosEscolaresComponent implements OnInit {
   logon() {
     console.log(this.form)
     if (this.form.valid) {
-      let usuario = this.sessionService.getItem("currentUser");
-      usuario.codUnidade = this.form.controls['unidade'].value;
-      usuario.codPeriodo = this.form.controls['periodo'].value;
-      usuario.codSubdivisao = this.form.controls['subdivisao'].value;
-      
-      usuario.noPeriodo = this.periodos.find(p => p.value === this.form.controls['periodo'].value).name;
-      usuario.noSubdivisao = this.subdivisoes.find(p => p.value === this.form.controls['subdivisao'].value).name;
-      usuario.noSecretaria = this.unidades.find(p => p.value === this.form.controls['unidade'].value).name;
-      this.userContextService.setUser(usuario);
+      if (this.form.controls['periodo']) {
+        this.usuario.codPeriodo = this.form.controls['periodo'].value;
+        this.usuario.noPeriodo = this.periodos.find(p => p.value == this.form.controls['periodo'].value).name;
+      }
+
+      if (this.form.controls['subdivisao']) {
+        this.usuario.codSubdivisao = this.form.controls['subdivisao'].value;
+        this.usuario.noSubdivisao = this.subdivisoes.find(p => p.value == this.form.controls['subdivisao'].value).name;
+      }
+
+      if (this.form.controls['unidade']) {
+        this.usuario.codUnidade = this.form.controls['unidade'].value;
+        this.usuario.noSecretaria = this.unidades.find(p => p.value == this.form.controls['unidade'].value).name;
+      }
+      this.userContextService.setUser(this.usuario);
 
       this.routeStateService.add("Home", '', null, true);
     }

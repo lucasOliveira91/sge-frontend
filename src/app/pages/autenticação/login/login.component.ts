@@ -54,7 +54,7 @@ export class LoginComponent implements OnInit {
     }
 
     this.autenticacaoService.login(this.form.controls['username'].value, this.form.controls['password'].value).subscribe(user => {
-      this.usuarioService.getUsuario(this.form.controls['username'].value).subscribe(usuario => {
+      this.usuarioService.getUsuario(this.form.controls['username'].value, this.form.controls['secretaria'].value).subscribe(usuario => {
         console.log('User',usuario)
         usuario.codSecretariaEnsino = this.form.controls['secretaria'].value;
         this.userContextService.setUser(usuario);

@@ -4,6 +4,7 @@ import { SessionService } from 'src/app/core/service/session.service';
 import { UserContextService } from 'src/app/core/service/user-context.service';
 import { Router } from '@angular/router';
 import { RouteStateService } from 'src/app/core/service/route-state.service';
+import { AutenticacaoService } from 'src/app/shared/services/autenticacao.service';
 
 @Component({
   selector: 'app-nav-right',
@@ -18,7 +19,8 @@ export class NavRightComponent implements OnInit {
     private sessionService: SessionService,
     private userContextService: UserContextService,
     private router: Router,
-    private routeStateService: RouteStateService
+    private routeStateService: RouteStateService,
+    private autenticacaoService: AutenticacaoService
   ) { }
 
   ngOnInit() { 
@@ -27,6 +29,8 @@ export class NavRightComponent implements OnInit {
   }
 
   logout() {
+    this.autenticacaoService.logout().subscribe(resp => {});
+    
     this.userContextService.logout();
     this.routeStateService.add("Login", 'login', null, false);
   }
