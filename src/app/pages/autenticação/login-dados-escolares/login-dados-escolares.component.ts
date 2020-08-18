@@ -78,6 +78,7 @@ export class LoginDadosEscolaresComponent implements OnInit {
 
   carregarSubdivisao() {
     if (this.unidades.length > 0) {
+      this.subdivisoes = [];
       this.dadosEscolaresService.getSubdivisoes(this.usuario.codSecretariaEnsino, this.form.controls['unidade'].value, this.form.controls['periodo'].value).subscribe(list => {
         list.forEach(sec => this.subdivisoes.push({ name: sec['descricao'], value: sec['id'] }))
 
